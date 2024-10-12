@@ -67,6 +67,37 @@ content = content.replace(scriptRegex, (match, scriptContent) => {
 fs.writeFileSync(file, content, 'utf-8');
 
 
+// // --------
+// // const fs = require('fs');
+// // const glob = require('glob');
+
+// // Find all HTML files in the 'out' directory
+// // const files = glob.sync('out/**/*.html');
+
+// // Replace _next paths but leave __next variables intact
+// files.forEach((file) => {
+//   let content = fs.readFileSync(file, 'utf-8');
+
+//   // Replace all occurrences of the /_next path with /next
+//   const modifiedContent = content.replace(/\/_next/g, './next');
+
+//   fs.writeFileSync(file, modifiedContent, 'utf-8');
+// });
+
+// // // Rename the _next directory to next
+// // const sourcePath = 'out/_next';
+// // const destinationPath = 'out/next';
+
+// // fs.rename(sourcePath, destinationPath, (err) => {
+// //   if (err) {
+// //     console.error('Failed to rename "_next" directory to "next".', err);
+// //   } else {
+// //     console.log('Renamed "_next" directory to "next" successfully.');
+// //   }
+// // });
+
+
+
 
 
 
