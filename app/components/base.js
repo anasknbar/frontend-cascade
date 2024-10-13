@@ -12,7 +12,7 @@ export default function Base() {
   return (
     <>
       
-      <div className="w-fit h-fit ml-auto bg-gray-200">
+      <div className="w-fit h-fit ml-auto bg-sky-100">
         {/* <RichTextEditior/> */}
         <ClassicEditor />
       </div>
