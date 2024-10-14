@@ -111,42 +111,37 @@ export default function App() {
   const [editorContent, setEditorContent] = useState("");
   const [editorInstance, setEditorInstance] = useState(null); // State for editor instancece
 
-
-
   useEffect(() => {
-	setIsLayoutReady(true);
+    setIsLayoutReady(true);
 
-// 	// Cleanup on unmount
-	return () => setIsLayoutReady(false);
-}, []);
+    // Cleanup on unmount
+    return () => setIsLayoutReady(false);
+  }, []);
 
   // Load copied content from chrome.storage
-  const loadCopiedContent = async () => {
-    if (typeof chrome !== "undefined" && chrome.storage) {
-      return new Promise((resolve) => {
-        chrome.storage.local.get(["copiedText", "copiedImage"], (result) => {
-          // Log the retrieved result for verification
-          console.log("Retrieved copied content from chrome.storage:", result);
+  function loadCopiedData(editor) {
+    chrome.storage.local.get(["copiedText", "copiedImage"], (result) => {
+      let newContent = "";
+      if (result.copiedText) {
+        // Add the copied text
+        newContent = result.copiedText;
+      } else if (result.copiedImage) {
+        // Add the copied image as an <img> tag
+        newContent = `<img src="${result.copiedImage}" alt="Copied Image" />`;
+      }
 
-          // Check if there was an error retrieving the content
-          if (chrome.runtime.lastError) {
-            console.error(
-              "Error retrieving content:",
-              chrome.runtime.lastError
-            );
-            resolve({ text: "", image: "" }); // Resolve with empty values in case of error
-          } else {
-            // Resolve with the retrieved text and image or empty values
-            resolve({
-              text: result.copiedText || "",
-              image: result.copiedImage || "",
-            });
-          }
-        });
-      });
-    }
-    return { text: "", image: "" }; // Fallback for non-Chrome environments
-  };
+      if (newContent) {
+        // Get the current content of the editor
+        const currentContent = editor.getData();
+
+        // Append the new content to the existing content
+        const updatedContent = currentContent + newContent;
+
+        // Update the editor with the combined content
+        editor.setData(updatedContent);
+      }
+    });
+  }
 
   // Load content from chrome.storage
   const loadEditorContent = async () => {
@@ -568,6 +563,7 @@ export default function App() {
                     data={editorContent} // Pass initial data directly to CKEditor
                     onReady={(editor) => {
                       setEditorInstance(editor); // Store a reference to the editor instance using state
+                      loadCopiedData(editor); // Load copied content into the editor
                     }}
                     onChange={(event, editor) => {
                       const data = editor.getData();
@@ -628,73 +624,3 @@ function configUpdateAlert(config) {
     );
   }
 }
-
-// useEffect(() => {
-// 	setIsLayoutReady(true);
-
-// 	// Add event listener for DOMContentLoaded
-// 	document.addEventListener('DOMContentLoaded', () => {
-// 		// Check if chrome is available and retrieve stored data
-// 		if (typeof chrome !== 'undefined' && chrome.storage) {
-// 			chrome.storage.local.get(['copiedText', 'copiedImage'], (result) => {
-// 				if (editorRef.current) {
-// 					const editorInstance = editorRef.current;
-
-// 					// Use the editor instance to modify the content
-// 					editorInstance.model.change((writer) => {
-// 						const insertPosition = editorInstance.model.document.getRoot().end; // Insert at the end of the document
-
-// 						if (result.copiedText) {
-// 							console.log('Copied Text:', result.copiedText);
-// 							const paragraph = writer.createElement('paragraph');
-// 							writer.insertText(result.copiedText, paragraph, 'end');
-// 							editorInstance.model.insertContent(paragraph, insertPosition);
-// 						}
-
-// 						if (result.copiedImage) {
-// 							console.log('Copied Image:', result.copiedImage);
-// 							const imageElement = writer.createElement('imageBlock', {
-// 								src: result.copiedImage,
-// 								alt: 'Copied content',
-// 							});
-// 							editorInstance.model.insertContent(imageElement, insertPosition);
-// 						}
-// 					});
-// 				}
-// 			});
-// 		}
-// 	});
-
-// 	// Cleanup on unmount
-// 	return () => setIsLayoutReady(false);
-// }, []);
-
-
-  // useEffect(() => {
-  //   setIsLayoutReady(true);
-  //   // Load the copied content and update the editor
-  //   const loadCopied = async () => {
-  //     const content = await loadCopiedContent();
-  //     let editorData = "";
-
-  //     // Append text if available
-  //     if (content.text) {
-  //       editorData += `<p>${content.text}</p>`;
-  //     }
-
-  //     // Append image if available
-  //     if (content.image) {
-  //       editorData += `<img src="${content.image}" alt="copied image">`;
-  //     }
-
-  //     // Set the editor content if there is any data
-  //     if (editorData) {
-  //       editorInstance.setData(editorData);
-  //     }
-  //   };
-
-  //   // Call loadCopied when the component mounts
-  //   loadCopied();
-  //   // Cleanup on unmount
-  //   return () => setIsLayoutReady(false);
-  // }, []);
