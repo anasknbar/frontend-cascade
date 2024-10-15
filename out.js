@@ -18,6 +18,20 @@ files.forEach((file) => {
   fs.writeFileSync(file, content, 'utf-8');
 });
 
+
+const jsAndCssFiles = glob.sync('out/**/*.{js,css}');
+
+jsAndCssFiles.forEach((file) => {
+  let content = fs.readFileSync(file, 'utf-8');
+  
+  // Replace '/_next' with './next' for Chrome extension compatibility
+  content = content.replace(/\/_next/g, './next');
+  
+  // Write the modified content back to the file
+  fs.writeFileSync(file, content, 'utf-8');
+});
+
+
 // Rename the _next folder to next for compatibility with Chrome Extensions
 const sourcePath = 'out/_next';
 const destinationPath = 'out/next';

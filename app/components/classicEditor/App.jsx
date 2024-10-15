@@ -81,7 +81,6 @@ import {
   TodoList,
   Underline,
   Undo,
-  Editor,
 } from "ckeditor5";
 import {
   ExportPdf,
@@ -94,11 +93,13 @@ import "ckeditor5/ckeditor5.css";
 import "ckeditor5-premium-features/ckeditor5-premium-features.css";
 
 import "./App.css";
+import { loadCopiedData, loadEditorContent, saveEditorContent } from './utils/chromeStorageUtils.js';
 
 /**
  * Please update the following values with your actual tokens.
  * Instructions on how to obtain them: https://ckeditor.com/docs/trial/latest/guides/real-time/quick-start.html
  */
+
 const LICENSE_KEY =
   "d1lwVGhIMjRrcFBnWndnY3V4bnBFejhoZEZYbGpETzAyQzNGWWVBM3d2bCtmUGVaYWZjOTR1ZGVmTDlzT3c9PS1NakF5TkRFeE1EYz0=";
 const CKBOX_TOKEN_URL =
@@ -118,66 +119,6 @@ export default function App() {
     return () => setIsLayoutReady(false);
   }, []);
 
-  // Load copied content from chrome.storage
-  function loadCopiedData(editor) {
-    chrome.storage.local.get(["copiedText", "copiedImage"], (result) => {
-      let newContent = "";
-      if (result.copiedText) {
-        // Add the copied text
-        newContent = result.copiedText;
-      } else if (result.copiedImage) {
-        // Add the copied image as an <img> tag
-        newContent = `<img src="${result.copiedImage}" alt="Copied Image" />`;
-      }
-
-      if (newContent) {
-        // Get the current content of the editor
-        const currentContent = editor.getData();
-
-        // Append the new content to the existing content
-        const updatedContent = currentContent + newContent;
-
-        // Update the editor with the combined content
-        editor.setData(updatedContent);
-      }
-    });
-  }
-
-  // Load content from chrome.storage
-  const loadEditorContent = async () => {
-    if (typeof chrome !== "undefined" && chrome.storage) {
-      return new Promise((resolve) => {
-        chrome.storage.local.get(["editorContent"], (result) => {
-          // Log the retrieved result for verification
-          console.log("Retrieved result from chrome.storage:", result);
-          // Check if the content was retrieved successfully
-          if (chrome.runtime.lastError) {
-            console.error(
-              "Error retrieving content:",
-              chrome.runtime.lastError
-            );
-            resolve(""); // Resolve with empty string in case of error
-          } else {
-            console.log("Retrieved editorContent:", result.editorContent);
-            resolve(result.editorContent || ""); // Resolve with editorContent or empty string
-          }
-        });
-      });
-    }
-  };
-
-  // Save content to chrome.storage
-  const saveEditorContent = (data) => {
-    if (typeof chrome !== "undefined" && chrome.storage) {
-      chrome.storage.local.set({ editorContent: data }, () => {
-        if (chrome.runtime.lastError) {
-          console.error("Error saving content:", chrome.runtime.lastError);
-        } else {
-          console.log("Content successfully saved to chrome.storage.");
-        }
-      });
-    }
-  };
 
   const editorConfig = {
     toolbar: {
