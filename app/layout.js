@@ -5,6 +5,7 @@ export default function RootLayout({ children }) {
       <body>
         <main>{children}</main>
       </body>
+      {/* <script src="https://cdn.ckbox.io/ckbox/2.4.0/ckbox.js"></script> */}
     </html>
   );
 }

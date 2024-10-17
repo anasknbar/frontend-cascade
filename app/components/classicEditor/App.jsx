@@ -93,8 +93,7 @@ import "ckeditor5/ckeditor5.css";
 import "ckeditor5-premium-features/ckeditor5-premium-features.css";
 
 import "./App.css";
-import { loadCopiedData, loadEditorContent, saveEditorContent } from './utils/chromeStorageUtils.js';
-
+import { loadEditorContent,saveEditorContent } from "./utils/chromeStorageUtils.js";
 /**
  * Please update the following values with your actual tokens.
  * Instructions on how to obtain them: https://ckeditor.com/docs/trial/latest/guides/real-time/quick-start.html
@@ -279,13 +278,14 @@ export default function App() {
         "https://cdn.ckeditor.com/ckeditor5-premium-features/43.2.0/ckeditor5-premium-features.css",
       ],
       fileName: "export-pdf-demo.pdf",
+      converterUrl: 'https://pdf-converter.cke-cs.com/v1/convert',
       converterOptions: {
-        format: "Tabloid",
-        margin_top: "20mm",
-        margin_bottom: "20mm",
-        margin_right: "24mm",
-        margin_left: "24mm",
-        page_orientation: "portrait",
+        format: 'A4',
+        margin_top: '20mm',
+        margin_bottom: '20mm',
+        margin_right: '12mm',
+        margin_left: '12mm',
+        page_orientation: 'portrait'
       },
     },
     exportWord: {
@@ -411,7 +411,7 @@ export default function App() {
     menuBar: {
       isVisible: true,
     },
-    placeholder: "Type or paste your content here!",
+    placeholder: "",
     style: {
       definitions: [
         {
@@ -504,7 +504,6 @@ export default function App() {
                     data={editorContent} // Pass initial data directly to CKEditor
                     onReady={(editor) => {
                       setEditorInstance(editor); // Store a reference to the editor instance using state
-                      loadCopiedData(editor); // Load copied content into the editor
                     }}
                     onChange={(event, editor) => {
                       const data = editor.getData();
