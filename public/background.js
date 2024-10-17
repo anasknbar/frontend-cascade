@@ -27,25 +27,45 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
   }
 });
 
-// ## Step 3: Copy the Selected Item (Text or Image)
+// ## Step 3: Copy the Selected Item (Text)
 // Copy the selected text
 function copySelectedText(info) {
   const selectedText = info.selectionText;
-
-  // Store the copied text using the Chrome storage API
-  chrome.storage.local.set({ copiedText: selectedText }, () => {
-    console.log("Text copied and stored:", selectedText);
+  const paragraphElement = `<p>${selectedText}<p>`
+  chrome.storage.local.get(["editorContent"], (result) => {
+    if (result.editorContent) {
+      // Append the new selected text to the existing copied text
+      chrome.storage.local.set({ editorContent: result.editorContent + paragraphElement }, () => {
+        console.log("Text copied with previous text and stored:", `${result.editorContent}\n${selectedText}`);
+      });
+    } else {
+      // Store the copied text using the Chrome storage API
+      chrome.storage.local.set({ editorContent: paragraphElement }, () => {
+        console.log("Text copied and stored:", selectedText);
+      });
+    }
   });
 }
 
+
 // Copy the image URL
 function copyImageUrl(info) {
-  const imageUrl = info.srcUrl;
-
-  // Store the copied image URL using the Chrome storage API
-  chrome.storage.local.set({ copiedImage: imageUrl }, () => {
-    console.log("Image URL copied and stored:", imageUrl);
+  const imageUrl =  info.srcUrl;
+  const imageElement = `<img src="${imageUrl}" alt="Copied Image" />`;
+  chrome.storage.local.get(["editorContent"], (result) => {
+    if (result.editorContent) {
+      // Append the new selected image to the existing copied images
+      chrome.storage.local.set({editorContent: result.editorContent + imageElement},()=>{
+        console.log("image copied with previous image and stored:", `${result.editorContent}\n${imageUrl}`);
+      })
+    } else{
+        // Store the copied image URL using the Chrome storage API
+        chrome.storage.local.set({ editorContent: imageElement }, () => {
+          console.log("Image URL copied and stored:", imageUrl);
   });
+    }
+  })
+
 }
 
 // // ## Optional: Step 4: Retrieve the Copied Content in the Popup

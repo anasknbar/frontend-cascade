@@ -1,30 +1,3 @@
-// chromeStorageUtils.js
-
-// Load copied content from chrome.storage
-export function loadCopiedData(editor) {
-  chrome.storage.local.get(["copiedText", "copiedImage"], (result) => {
-    let newContent = "";
-    if (result.copiedText) {
-      // Add the copied text
-      newContent = result.copiedText;
-    } else if (result.copiedImage) {
-      // Add the copied image as an <img> tag
-      newContent = `<img src="${result.copiedImage}" alt="Copied Image" />`;
-    }
-
-    if (newContent) {
-      // Get the current content of the editor
-      const currentContent = editor.getData();
-
-      // Append the new content to the existing content
-      const updatedContent = currentContent + newContent;
-
-      // Update the editor with the combined content
-      editor.setData(updatedContent);
-    }
-  });
-}
-
 // Load content from chrome.storage
 export const loadEditorContent = async () => {
   if (typeof chrome !== "undefined" && chrome.storage) {
@@ -45,7 +18,7 @@ export const loadEditorContent = async () => {
   }
 };
 
-// Save content to chrome.storage
+// Save content to chrome.storage, his function is called whenever the editor content changes
 export const saveEditorContent = (data) => {
   if (typeof chrome !== "undefined" && chrome.storage) {
     chrome.storage.local.set({ editorContent: data }, () => {
