@@ -11,33 +11,55 @@
 	font-family: 'Lato';
 	width: fit-content;
 	margin-left: auto;
-	margin-right: auto; 
-	/* padding-left: 30px; */
+	margin-right: auto;
+
+  
+  
 }
+/* ----------------------------------------------- */
+.ckbox-img-editor-toolbar .ckbox-img-editor-toolbar-section:nth-of-type(1),
+.ckbox-img-editor-toolbar .ckbox-img-editor-toolbar-section:nth-of-type(2),
+.ckbox-img-editor-toolbar .ckbox-img-editor-toolbar__divider:nth-of-type(2),
+.ckbox-img-editor-toolbar .ckbox-img-editor-toolbar__divider:nth-of-type(4) {
+    display: none !important;
+}
+
 
 .ck-content {
 	font-family: 'Lato';
 	line-height: 1.6;
 	word-break: break-word;
-	height: 490px;
-	/* padding: 10px; */
-	padding: 30px 30px !important;
-
-}
-
-.editor-container_classic-editor .editor-container__editor {
-	min-width: 795px;
-	max-width: 795px;
-	padding-left: 30px;
-	/* background-color: #272822; */
-}
-
-.editor-container_include-block-toolbar {
-	margin-left: 0px;
+	margin: 1rem 1.5rem !important;
+  height: 800px; /* Let the content adjust naturally */
+  padding: 10px 20px !important;
 	
 
+
+  
 }
 
+
+.editor-container_classic-editor .editor-container__editor {
+	min-width: 650px !important;
+	max-width: 650px !important;
+	min-height: 600px !important;
+	max-height: 600px !important;
+  padding-left: 0px !important;
+
+	overflow-y: hidden; /* Disable scrolling by default */
+  position: relative;
+  border: 1px solid #ccc; /* Optional styling */
+  max-height: 400px; /* Ensure a fixed size container */
+	
+}
+
+
+
+.ckbox-img-editor-actions{
+	padding-right: 20px !important;
+}
+
+/* --------------------------------------------------- */
 .ck-content h3.category {
 	font-family: 'Oswald';
 	font-size: 20px;
