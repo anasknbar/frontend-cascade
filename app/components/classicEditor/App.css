@@ -12,6 +12,7 @@
 	width: fit-content;
 	margin-left: auto;
 	margin-right: auto;
+
   
   
 }
@@ -29,21 +30,39 @@
 	line-height: 1.6;
 	word-break: break-word;
 	margin: 1rem 2rem !important;
+  min-height: 500px; /* Let the content adjust naturally */
+  padding: 20px 20px !important;
+	
+
 
   
 }
 
+
 .editor-container_classic-editor .editor-container__editor {
-	min-width: 675px !important;
-	max-width: 675px !important;
+	min-width: 650px !important;
+	max-width: 650px !important;
 	min-height: 600px !important;
 	max-height: 600px !important;
   padding-left: 0px !important;
+
+	
+	
 }
+
+/* .editor-container__editor{
+	overflow-y: auto; 
+  position: relative;
+  border: 1px solid #ccc; 
+  max-height: 400px; 
+} */
+
+
 
 .ckbox-img-editor-actions{
 	padding-right: 20px !important;
 }
+
 /* --------------------------------------------------- */
 .ck-content h3.category {
 	font-family: 'Oswald';

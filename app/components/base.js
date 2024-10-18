@@ -1,8 +1,6 @@
 import dynamic from "next/dynamic";
 
-const RichTextEditior = dynamic(() => import("./richTextEditior/App"), {
-  ssr: false,
-});
+
 
 const ClassicEditor = dynamic(() => import("./classicEditor/App"), {
   ssr: false,

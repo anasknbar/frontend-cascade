@@ -1,4 +1,19 @@
 "use client";
+// Select the ck-content (textarea/contenteditable) and its parent editor container
+
+  // const ckContent = document.querySelector(".ck-content");
+  // const editorContainer = document.querySelector(".editor-container__editor");
+  // // Enable scrolling when the textarea gains focus
+  // ckContent.addEventListener("focus", () => {
+  //   editorContainer.style.overflowY = "auto";
+  // });
+
+  // // Disable scrolling when the textarea loses focus
+  // ckContent.addEventListener("blur", () => {
+  //   editorContainer.style.overflowY = "hidden";
+  // });
+
+
 
 import { useState, useEffect, useRef } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
@@ -93,7 +108,10 @@ import "ckeditor5/ckeditor5.css";
 import "ckeditor5-premium-features/ckeditor5-premium-features.css";
 
 import "./App.css";
-import { loadEditorContent,saveEditorContent } from "./utils/chromeStorageUtils.js";
+import {
+  loadEditorContent,
+  saveEditorContent,
+} from "./utils/chromeStorageUtils.js";
 /**
  * Please update the following values with your actual tokens.
  * Instructions on how to obtain them: https://ckeditor.com/docs/trial/latest/guides/real-time/quick-start.html
@@ -117,7 +135,6 @@ export default function App() {
     // Cleanup on unmount
     return () => setIsLayoutReady(false);
   }, []);
-
 
   const editorConfig = {
     toolbar: {
@@ -278,14 +295,14 @@ export default function App() {
         "https://cdn.ckeditor.com/ckeditor5-premium-features/43.2.0/ckeditor5-premium-features.css",
       ],
       fileName: "export-pdf-demo.pdf",
-      converterUrl: 'https://pdf-converter.cke-cs.com/v1/convert',
+      converterUrl: "https://pdf-converter.cke-cs.com/v1/convert",
       converterOptions: {
-        format: 'A4',
-        margin_top: '20mm',
-        margin_bottom: '20mm',
-        margin_right: '12mm',
-        margin_left: '12mm',
-        page_orientation: 'portrait'
+        format: "A4",
+        margin_top: "20mm",
+        margin_bottom: "20mm",
+        margin_right: "12mm",
+        margin_left: "12mm",
+        page_orientation: "portrait",
       },
     },
     exportWord: {
